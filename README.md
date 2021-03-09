@@ -1,2 +1,2 @@
-# cryptocurrency_parser
-coursework spbu
+# coursework spbu
+Cryptocurrency parser for the coinmarketcap.com
