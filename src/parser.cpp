@@ -18,7 +18,8 @@ std::string get_html(const std::string &fileName)
     return buff;
 }
 
-static void search_for_links(GumboNode* node) {
+static void search_for_links(GumboNode* node)
+{
     if (node->type != GUMBO_NODE_ELEMENT)
     {
         return;
