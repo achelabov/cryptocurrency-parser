@@ -1,8 +1,10 @@
 #include <iostream>
+#include <stdlib.h>
+#include <string>
 #include <fstream>
 #include <gumbo.h>
 
-std::string readAll(const std::string &fileName)
+std::string get_html(const std::string &fileName)
 {
     std::ifstream ifs;
     ifs.open(fileName);
@@ -16,9 +18,30 @@ std::string readAll(const std::string &fileName)
     return buff;
 }
 
+static void search_for_links(GumboNode* node) {
+    if (node->type != GUMBO_NODE_ELEMENT)
+    {
+        return;
+    }
+
+    GumboAttribute* href;
+    if (node->v.element.tag == GUMBO_TAG_A && (a = gumbo_get_attribute(&node->v.element.attributes, "href")))
+    {
+        std::cout << href->value << std::endl;
+    }
+
+    GumboVector* children = &node->v.element.children;
+    for (unsigned int i = 0; i < children->length; ++i) 
+    {
+        search_for_links(static_cast<GumboNode*>(children->data[i]));
+    }
+}
+
 int main()
 {
-    std::cout << readAll("source.html") << std::endl;
+    GumboOutput* output = gumbo_parse(get_html("source.html").c_str());
+    search_for_links(output->root);
+    gumbo_destroy_output(&kGumboDefaultOptions, output);
 
     return 0;
 }
