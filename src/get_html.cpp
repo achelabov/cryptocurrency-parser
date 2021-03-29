@@ -18,13 +18,13 @@ int main(void)
     curl = curl_easy_init();
     if(curl)
     {
-        curl_easy_setopt(curl, CURLOPT_URL, "https://coinmarketcap.com");
+        curl_easy_setopt(curl, CURLOPT_URL, "coinmarketcap.com");
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
         res = curl_easy_perform(curl);
         curl_easy_cleanup(curl);
 
-        fout.open("source.html");
+        fout.open("../html/source.html");
         fout << readBuffer;
         fout.close();
     }

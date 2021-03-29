@@ -26,7 +26,7 @@ static void search_for_links(GumboNode* node)
     }
 
     GumboAttribute* href;
-    if (node->v.element.tag == GUMBO_TAG_A && (a = gumbo_get_attribute(&node->v.element.attributes, "href")))
+    if (node->v.element.tag == GUMBO_TAG_A && (href = gumbo_get_attribute(&node->v.element.attributes, "href")))
     {
         std::cout << href->value << std::endl;
     }
@@ -40,7 +40,7 @@ static void search_for_links(GumboNode* node)
 
 int main()
 {
-    GumboOutput* output = gumbo_parse(get_html("source.html").c_str());
+    GumboOutput* output = gumbo_parse(get_html("../html/source.html").c_str());
     search_for_links(output->root);
     gumbo_destroy_output(&kGumboDefaultOptions, output);
 
