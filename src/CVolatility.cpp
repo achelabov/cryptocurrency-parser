@@ -32,10 +32,10 @@ double CVolatility::FindTable(GumboNode * node)
 	    for (unsigned i = 0; i < children->length; ++i)
         {
 			pchild = static_cast<GumboNode*>(children->data[i]);
-			if (pchild && pchild->v.element.tag == GUMBO_TAG_TBODY)
+            if (pchild && pchild->v.element.tag == GUMBO_TAG_TBODY)
             {
-				return FindTableRow(pchild);
-			}
+                return FindTableRow(pchild);
+            }
 		}
 	}
 	else
