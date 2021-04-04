@@ -25,13 +25,11 @@ double CVolatility::FindTable(GumboNode * node)
         return res;
     }
 	GumboAttribute* ptable;
-	if ((node->v.element.tag == GUMBO_TAG_TABLE) && 
-        (ptable = gumbo_get_attribute(&node->v.element.attributes, "id")) &&
-        (m_idtable.compare(ptable->value) == 0))
+	if ((node->v.element.tag == GUMBO_TAG_TABLE) && (ptable = gumbo_get_attribute(&node->v.element.attributes, "id")) && (m_idtable.compare(ptable->value) == 0))
     {
 		GumboVector* children = &node->v.element.children;
 		GumboNode* pchild = nullptr;
-		for (unsigned i = 0; i < children->length; ++i)
+	    for (unsigned i = 0; i < children->length; ++i)
         {
 			pchild = static_cast<GumboNode*>(children->data[i]);
 			if (pchild && pchild->v.element.tag == GUMBO_TAG_TBODY)
