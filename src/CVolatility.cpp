@@ -25,7 +25,9 @@ double CVolatility::FindTable(GumboNode * node)
         return res;
     }
 	GumboAttribute* ptable;
-	if ((node->v.element.tag == GUMBO_TAG_TABLE) && (ptable = gumbo_get_attribute(&node->v.element.attributes, "id")) && (m_idtable.compare(ptable->value) == 0))
+	if ((node->v.element.tag == GUMBO_TAG_TABLE) &&
+        (ptable = gumbo_get_attribute(&node->v.element.attributes, "id")) &&
+        (m_idtable.compare(ptable->value) == 0))
     {
 		GumboVector* children = &node->v.element.children;
 		GumboNode* pchild = nullptr;
@@ -36,8 +38,8 @@ double CVolatility::FindTable(GumboNode * node)
             {
                 return FindTableRow(pchild);
             }
-		}
-	}
+        }
+    }
 	else
     {
 		for (unsigned int i = 0; i < node->v.element.children.length; ++i)
