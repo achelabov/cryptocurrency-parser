@@ -1,8 +1,8 @@
 #include <iostream>
-#include <stdlib.h>
 #include <string>
 #include <fstream>
 #include <gumbo.h>
+#include "CVolatility.h"
 
 std::string get_html(const std::string &fileName)
 {
@@ -18,31 +18,25 @@ std::string get_html(const std::string &fileName)
     return buff;
 }
 
-static void search_for_links(GumboNode* node)
+double GetVolatility(const std::string wszPair, int vtype) 
 {
-    if (node->type != GUMBO_NODE_ELEMENT)
-    {
-        return;
-    }
+    if (vtype != 2 || vtype != 4) return -1;
 
-    GumboAttribute* href;
-    if (node->v.element.tag == GUMBO_TAG_A && (href = gumbo_get_attribute(&node->v.element.attributes, "href")))
-    {
-        std::cout << href->value << std::endl;
-    }
+//  std::wstring w{ wszPair };
+//  std::string s(w.begin(), w.end());
 
-    GumboVector* children = &node->v.element.children;
-    for (unsigned int i = 0; i < children->length; ++i) 
-    {
-        search_for_links(static_cast<GumboNode*>(children->data[i]));
-    }
+    std::string source = get_html("../html/source.html");
+    CVolatility cv;
+
+    return cv.FindData(source, wszPair, (VOLTYPE)vtype);
 }
 
 int main()
 {
-    GumboOutput* output = gumbo_parse(get_html("../html/source.html").c_str());
-    search_for_links(output->root);
-    gumbo_destroy_output(&kGumboDefaultOptions, output);
+    std::string pair = "1";
+    int price = 2;
+    double result = GetVolatility(pair, price);
+    std::cout << result << std::endl;
 
     return 0;
 }
