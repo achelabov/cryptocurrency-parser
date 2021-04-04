@@ -19,44 +19,45 @@ double CVolatility::FindData(const std::string& szHtml, const std::string& pair,
 
 double CVolatility::FindTable(GumboNode * node) 
 {
-	double res = -1;
-	if (node->type != GUMBO_NODE_ELEMENT) 
+    double res = -1;
+    if (node->type != GUMBO_NODE_ELEMENT)
     {
-		return res; 
-	}
+        return res;
+    }
 	GumboAttribute* ptable;
 	if ((node->v.element.tag == GUMBO_TAG_TABLE) &&
 		(ptable = gumbo_get_attribute(&node->v.element.attributes, "id")) &&
-		(m_idtable.compare(ptable->value) == 0) )
+		(m_idtable.compare(ptable->value) == 0))
     {
 		GumboVector* children = &node->v.element.children;
 		GumboNode* pchild = nullptr;
-		for (unsigned i = 0; i < children->length; ++i) 
+		for (unsigned i = 0; i < children->length; ++i)
         {
 			pchild = static_cast<GumboNode*>(children->data[i]);
-			if (pchild && pchild->v.element.tag == GUMBO_TAG_TBODY) 
+			if (pchild && pchild->v.element.tag == GUMBO_TAG_TBODY)
             {
 				return FindTableRow(pchild);
 			}
 		}
 	}
-	else 
+	else
     {
-		for (unsigned int i = 0; i < node->v.element.children.length; ++i) 
+		for (unsigned int i = 0; i < node->v.element.children.length; ++i)
         {
 			res = FindTable(static_cast<GumboNode*>(node->v.element.children.data[i]));
-			if ( res != -1) return res;
+			if (res != -1) return res;
 		}
 	}
 	return res;
 }
 
-double CVolatility::FindTableRow(GumboNode* node) {
+double CVolatility::FindTableRow(GumboNode* node)
+{
 	std::string szRow = "tr_" + m_pair;
 	GumboAttribute* prow = nullptr;
 	GumboNode* child_node = nullptr;
 	GumboVector* children = &node->v.element.children;
-	for (unsigned int i = 0; i < children->length; ++i) 
+	for (unsigned int i = 0; i < children->length; ++i)
     {
 		child_node = static_cast<GumboNode*>(node->v.element.children.data[i]);
 		if ((child_node->v.element.tag == GUMBO_TAG_TR) &&
@@ -75,10 +76,10 @@ double CVolatility::GetVolatility(GumboNode* node)
 	GumboNode* child_node = nullptr;
 	GumboVector* children = &node->v.element.children;
 	int j = 0;
-	for (unsigned int i = 0; i < children->length; ++i) 
+	for (unsigned int i = 0; i < children->length; ++i)
     {
 		child_node = static_cast<GumboNode*>(node->v.element.children.data[i]);
-		if (child_node->v.element.tag == GUMBO_TAG_TD && j++ == (int)m_column) 
+		if (child_node->v.element.tag == GUMBO_TAG_TD && j++ == (int)m_column)
         {
 			GumboNode* ch = static_cast<GumboNode*>(child_node->v.element.children.data[0]);
 			std::string t{ ch->v.text.text };
