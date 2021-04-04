@@ -1,6 +1,7 @@
 #include "CVolatility.h"
 #include <algorithm>
 #include <cctype>
+
 #define TOUPPER(s) std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) {return std::toupper(c);})
 
 double CVolatility::FindData(const std::string &szHtml, const std::string &pair, VOLTYPE vtype)
@@ -9,7 +10,7 @@ double CVolatility::FindData(const std::string &szHtml, const std::string &pair,
     m_pair = pair;
     TOUPPER(m_pair);
     m_column = vtype;
-    GumboOutput *output = gumbo_parse(szHtml.c_str());
+    GumboOutput* output = gumbo_parse(szHtml.c_str());
     double res = FindTable(output->root);
     const GumboOptions mGumboDefaultOptions = {&malloc_wrapper, &free_wrapper, NULL, 8, false, -1, GUMBO_TAG_LAST, GUMBO_NAMESPACE_HTML};
     gumbo_destroy_output(&mGumboDefaultOptions, output);
@@ -80,7 +81,7 @@ double CVolatility::GetVolatility(GumboNode* node)
         child_node = static_cast<GumboNode*> (node->v.element.children.data[i]);
         if (child_node->v.element.tag == GUMBO_TAG_TD && j++ == (int) m_column)
         {
-            GumboNode *ch = static_cast<GumboNode*> (child_node->v.element.children.data[0]);
+            GumboNode* ch = static_cast<GumboNode*> (child_node->v.element.children.data[0]);
             std::string t {ch->v.text.text};
             std::replace(t.begin(), t.end(), ',', '.');
             res = std::stod(t);
