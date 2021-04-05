@@ -1,10 +1,10 @@
-#include "CVolatility.h"
+#include "Volatility.h"
 #include <algorithm>
 #include <cctype>
 
 #define TOUPPER(s) std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) {return std::toupper(c);})
 
-double CVolatility::FindData(const std::string &szHtml, const std::string &pair, VOLTYPE vtype)
+double Volatility::FindData(const std::string &szHtml, const std::string &pair, VOLTYPE vtype)
 {
     if (pair.empty()) return -1;
     m_pair = pair;
@@ -17,7 +17,7 @@ double CVolatility::FindData(const std::string &szHtml, const std::string &pair,
     return res;
 }
 
-double CVolatility::FindTable(GumboNode* node)
+double Volatility::FindTable(GumboNode* node)
 {
     double res = -1;
     if (node->type != GUMBO_NODE_ELEMENT)
@@ -51,7 +51,7 @@ double CVolatility::FindTable(GumboNode* node)
     return res;
 }
 
-double CVolatility::FindTableRow(GumboNode *node)
+double Volatility::FindTableRow(GumboNode *node)
 {
     std::string szRow = "tr_" + m_pair;
     GumboAttribute* prow = nullptr;
@@ -70,7 +70,7 @@ double CVolatility::FindTableRow(GumboNode *node)
     return -1;
 }
 
-double CVolatility::GetVolatility(GumboNode* node)
+double Volatility::GetVolatility(GumboNode* node)
 {
     double res = -1;
     GumboNode* child_node = nullptr;

@@ -1,18 +1,18 @@
 #include <string>
 #include <gumbo.h>
 
-typedef enum
+enum VOLTYPE
 {
     price = 2,
     capitalization = 4
-} VOLTYPE;
+};
 
-class CVolatility
+class Volatility
 {
 public:
-    CVolatility() {};
+    Volatility() {};
     double FindData(const std::string &szHtml, const std::string &pair, VOLTYPE vtype = price);
-    ~CVolatility() {};
+    ~Volatility() {};
 
 protected:
     double FindTable(GumboNode* node);

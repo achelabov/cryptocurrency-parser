@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 #include <gumbo.h>
-#include "CVolatility.h"
+#include "Volatility.h"
 
 std::string get_html(const std::string &fileName)
 {
@@ -26,7 +26,7 @@ double GetVolatility(const std::string wszPair, int vtype)
 //  std::string s(w.begin(), w.end());
 
     std::string source = get_html("../html/source.html");
-    CVolatility cv;
+    Volatility cv;
 
     return cv.FindData(source, wszPair, (VOLTYPE)vtype);
 }
